@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   FormBuilder,
@@ -25,7 +25,10 @@ export class TodoListComponent implements OnInit {
   });
   todoList: Todo[] = [];
 
-  constructor(private todoService: TodoService) {}
+  constructor(
+    private todoService: TodoService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.getTodoList();
@@ -47,10 +50,7 @@ export class TodoListComponent implements OnInit {
     this.todoList.push(newTodo);
     this.todoService.addTodo(newTodo);
     this.todoForm.reset();
-  }
-
-  onCheckboxChange(todo: Todo): void {
-    this.todoService.updateTodoList(this.todoList);
+    this.cdr.detectChanges();
   }
 
   onDelete(todo: Todo): void {
@@ -59,5 +59,6 @@ export class TodoListComponent implements OnInit {
       this.todoList.splice(index, 1);
     }
     this.todoService.deleteTodoList(this.todoList);
+    this.cdr.detectChanges();
   }
 }
