@@ -1,0 +1,25 @@
+<div class="todo-list-container">
+  <h1 class="todo-list-header">To-Do List</h1>
+  <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Add a new to-do item"
+        formControlName="todoInput"
+      />
+      <button class="btn btn-outline-secondary" type="submit">Add</button>
+    </div>
+  </form>
+  <div *ngIf="todoList.length === 0" class="text-center">
+    No items in to-do list.
+  </div>
+  <ul class="list-group">
+    <li *ngFor="let todo of todoList" class="list-group-item todo-list-item">
+      {{ todo.description }}
+      <button type="button" class="delete-button" (click)="onDelete(todo)">
+        X
+      </button>
+    </li>
+  </ul>
+</div>
